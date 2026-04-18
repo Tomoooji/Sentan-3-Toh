@@ -69,10 +69,15 @@ def rz(theta):
 # 3. 遺伝的アルゴリズムクラス
 # =============================================================================
 class GeneticAlgorithmAligner:
-    def __init__(self, pdb1, pdb2, aln, pop_size, gen_num, mut_rate, rec_rate):
-        self.pdb1 = pdb1
-        self.pdb2 = pdb2
-        self.aln = aln
+    pbd1 = "3c9a.pdb"
+    pdb2 = "1jl9.pdb"
+    aln = "seq.aln.fasta"
+    def __init__(self,# pdb1, pdb2, aln, 
+                 pop_size, gen_num, mut_rate, rec_rate):
+        #self.pdb1 = pdb1
+        #self.pdb2 = pdb2
+        #self.aln = aln
+        
         self.pop_size = pop_size
         self.gen_num = gen_num
         self.mut_rate = mut_rate
