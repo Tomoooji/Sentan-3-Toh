@@ -2,7 +2,13 @@
 
 先端生命科学実験の藤先生回分のプログラムフォルダ
 
+### 環境構築
+三浦先生の時に入れたAnacondaが残ってれば必要なもの(numpyとmatplotlib)は入ってるので問題ないがJupyterでファイルの読み書きがどうなるかわからんので普通にVSCode入れた方が良いと思う。QOL上がります。細かいことはこの動画(https://www.youtube.com/watch?v=B8WnCAOcheM)がわかりやすいのでおすすめ(jupyter系の拡張機能はいらん)
+
 ### Python文法解説
+参考:https://www.youtube.com/playlist?list=PLiaZfx-34L5oK_8hLi_jbmFfZgZoGCqnr  
+該当する動画を探したりググったりしたら頑張ればコードの全容が理解できるかも  
+わからなかったら聞いてもらえればある程度は対応できるはず...(これでもPython歴6年なんでね.)
 
 - 関数とクラス
     ```Python
