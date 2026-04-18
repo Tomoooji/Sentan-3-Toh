@@ -19,27 +19,28 @@ p105~
 
 ### 課題の説明
 
-[1] **1jl9.pdbと1jl9m.pdbの重ね合わせ**
-[1-1] GAに及ぼす集団サイズの効果
-[1-2] GAに及ぼす世代数の効果
-[1-3] GAに及ぼす突然変異率の効果
-[1-4] GAに及ぼす組換え率の効果
-[2] **1jl9.pdbと3c9a.pdbの重ね合わせ**
-[2-1] GAに及ぼす集団サイズの効果
-[2-2] GAに及ぼす世代数の効果
-[2-3] GAに及ぼす突然変異率の効果
-[2-4] GAに及ぼす組換え率の効果
-[3] **プログラムの修正による1jl9.pdbと3c9a.pdbの重ね合わせの改良**
-[3-1] 修正前に実行
-[3-2] 修正後に実行
+1. **1jl9.pdbと1jl9m.pdbの重ね合わせ**
+    1. GAに及ぼす集団サイズの効果
+    2. GAに及ぼす世代数の効果
+    3. GAに及ぼす突然変異率の効果
+    4. GAに及ぼす組換え率の効果
+2. **1jl9.pdbと3c9a.pdbの重ね合わせ**
+    1. GAに及ぼす集団サイズの効果
+    2. GAに及ぼす世代数の効果
+    3. GAに及ぼす突然変異率の効果
+    4. GAに及ぼす組換え率の効果
+3. **プログラムの修正による1jl9.pdbと3c9a.pdbの重ね合わせの改良**
+    1. 修正前に実行
+    2. 修正後に実行
 
 1jl9.pdb  human epidermal growth factor (EGF) 42アミノ酸
-3c9a.pdb Drosophila melanogaster Spitzタンパク質のEGFドメイン 48アミノ酸
+3c9a.pdb Drosophila melanogaster Spitzタンパク質のEGFドメイン 48アミノ酸  
+
 重ね合わせには、一方の構造のどのアミノ酸と他方の構造のどのアミノ酸が対応するかを決めておかないと、RMSDが計算できない。
 対応関係はアラインメントファイルで与える。
 
+#### 実行コマンド
 ```
-
 python execute_GA.py
 --pdb1 3c9a.pdb
 --pdb2 1jl9.pdb
@@ -61,9 +62,10 @@ python execute_GA.py
 
 ### レポート課題
 
-[1] 1jl9.pdbと1jl9m.pdbの比較 (p.136~)
-[2] 1jl9.pdbと3c9a.pdbの比較  (p.142~)
-[3] execute_GAv2.py (execute_GA.pyの改良版)の性能評価 (p.148~)
+1. 1jl9.pdbと1jl9m.pdbの比較 (p.136~)  
+2. 1jl9.pdbと3c9a.pdbの比較  (p.142~)  
+3. execute_GAv2.py (execute_GA.pyの改良版)の性能評価 (p.148~)  
+    > memo:line124~131,136~150が差分
 
 #### 構成
 
