@@ -8,7 +8,7 @@
 
 ### Python文法解説
 
-参考:https://www.youtube.com/playlist?list=PLiaZfx-34L5oK_8hLi_jbmFfZgZoGCqnr 該当する動画を探したりググったりしたら頑張ればコードの全容が理解できるかもわからなかったら聞いてもらえればある程度は対応できるはず...(これでもPython歴6年なんでね.)
+参考:https://www.youtube.com/playlist?list=PLiaZfx-34L5oK_8hLi_jbmFfZgZoGCqnr 該当する動画を探したりググったりしたら頑張ればコードの全容が理解できるかも。  わからなかったら聞いてもらえればある程度は対応できるはず...(これでもPython歴6年なんでね.)
 
 - 関数とクラス
 
