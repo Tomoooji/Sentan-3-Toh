@@ -8,8 +8,7 @@
 
 ### Python文法解説
 
-参考:https://www.youtube.com/playlist?list=PLiaZfx-34L5oK_8hLi_jbmFfZgZoGCqnr 該当する動画を探したりググったりしたら頑張ればコードの全容が理解できるかも。  
-わからなかったら聞いてもらえればある程度は対応できるはず...(これでもPython歴6年なんでね.)
+参考:https://www.youtube.com/playlist?list=PLiaZfx-34L5oK_8hLi_jbmFfZgZoGCqnr 該当する動画を探したりググったりしたら頑張ればコードの全容が理解できるかも。わからなかったら聞いてもらえればある程度は対応できるはず...(これでもPython歴6年なんでね.)
 
 - 関数とクラス
 
@@ -28,6 +27,14 @@
   ```
 
   一言でいうと一行for文である。Pythonはfor文書いたら負けの言語なので単に一定のルールにのっとったリストを作りたいだけならこっちの方が速いしわかりやすい。
+  ```Python
+  ca1_indices=[]
+  for i,a in enumarate(p1_atoms):
+      if a['elety'] == 'CA':
+         ca1_indices.append(i)
+  ```
+  ↑これと同じ意味だけど行数と実行速度が違う。
+  
 - f文字列
 
   ```Python
