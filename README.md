@@ -70,25 +70,41 @@ p105~
 
 ### execute_GA.pyの解説(Python初学者向け)
 ```
-read_fasta
-read_pdb
-write_pdb
+# ファイルの読み書き用関数
+> read_fasta関数
+> read_pdb関数
+> write_pdb関数
 
-rx
-ry
-rz
+# 回転行列計算用関数
+> rx関数
+> ry関数
+> rz関数
 
-GeneticAlgorithmAligner
- >__init__
- >prepare_ga
- >calc_fitness
- >mod_angle
- >mutation
- >recombination
- >selection
- >output_results
+# 遺伝的アルゴリズム用クラス
+> GeneticAlgorithmAlignerクラス
 
-main
+    # クラスの初期化関数
+    > __init__関数
+
+    # 
+    > prepare_ga関数
+    # 
+    > calc_fitness関数
+    # 
+    > mod_angle関数
+
+    # 
+    > mutation関数
+    # 
+    > recombination関数
+    # 
+    > selection関数
+
+    # 
+    > output_results関数
+
+# 
+> if __name__ == "__main__":
 
 ```
 
