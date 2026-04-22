@@ -70,6 +70,7 @@ def rz(theta):
 # =============================================================================
 class GeneticAlgorithmAligner:
     def __init__(self, pdb1, pdb2, aln, pop_size, gen_num, mut_rate, rec_rate):
+        # 主要な変数の初期化
         self.pdb1 = pdb1
         self.pdb2 = pdb2
         self.aln = aln
@@ -87,6 +88,7 @@ class GeneticAlgorithmAligner:
         self.out_pdb2 = f"{base2}{suffix}.pdb"
         self.out_plot = f"plot_{base1}_{base2}{suffix}.png"
 
+        # 主要な変数の初期化
         self.count = 0
         self.rt = 1.0
         self.recd = np.zeros(self.gen_num)
@@ -98,13 +100,15 @@ class GeneticAlgorithmAligner:
         self.align_size = 0
 
     def prepare_ga(self):
+        # 出力先ファイル名の重複防止
         if os.path.exists(self.out_pdb1) or os.path.exists(self.out_pdb2) or os.path.exists(self.out_plot):
             raise FileExistsError(f"エラー：出力ファイル ({self.out_plot} 等) が既に存在します。古いファイルを削除するかリネームしてください。")
 
+        # 入力ファイル読み込み
         print("-----> two pdb files and a fasta alignment file are read")
-        seqs = read_fasta(self.aln)
-        p1_atoms = read_pdb(self.pdb1)
-        p2_atoms = read_pdb(self.pdb2)
+        seqs = read_fasta(self.aln)# -> 11行目~
+        p1_atoms = read_pdb(self.pdb1)# -> 27行目~
+        p2_atoms = read_pdb(self.pdb2)# -> 27行目~
 
         print("-----> correspondece between alignment and pdb is made")
         self.align_size = len(seqs[0])
@@ -116,52 +120,61 @@ class GeneticAlgorithmAligner:
                 if seqs[i][j] != '-':
                     self.pos[i, j] = site
                     site += 1
-
+        
+        # Cα原子の座標を行列として抽出
         print("-----> CA coordinates are obtained from PDB data")
+        # atomのeletyがCAのインデックスの抽出
         ca1_indices = [i for i, a in enumerate(p1_atoms) if a['elety'] == 'CA']
         ca2_indices = [i for i, a in enumerate(p2_atoms) if a['elety'] == 'CA']
 
+        # 抽出したインデックスをもとにx,y,z座標を格納
         ca1_raw = np.array([[p1_atoms[i]['x'], p1_atoms[i]['y'], p1_atoms[i]['z']] for i in ca1_indices])
         ca2_raw = np.array([[p2_atoms[i]['x'], p2_atoms[i]['y'], p2_atoms[i]['z']] for i in ca2_indices])
 
+        # 格納した座標から重心を計算
         print("-----> Calculation of geometric center of 1st and 2nd PDB file")
         ca1_center = np.mean(ca1_raw, axis=0)
         ca2_center = np.mean(ca2_raw, axis=0)
 
         print("-----> The geometric centers of the CA coordinates are set to the origin")
+        # 計算用に"深いコピー"を作成
         self.p1x = copy.deepcopy(p1_atoms)
         self.p2x = copy.deepcopy(p2_atoms)
-
+        # 計算した重心を引き算して相対位置に変換
         for a in self.p1x:
             a['x'] -= ca1_center[0]
             a['y'] -= ca1_center[1]
             a['z'] -= ca1_center[2]
-            
+        # 計算した重心を引き算して相対位置に変換
         for a in self.p2x:
             a['x'] -= ca2_center[0]
             a['y'] -= ca2_center[1]
             a['z'] -= ca2_center[2]
 
+        # Numpy配列に変換
         self.ca1_coords = np.array([[self.p1x[i]['x'], self.p1x[i]['y'], self.p1x[i]['z']] for i in ca1_indices])
         self.ca2_coords = np.array([[self.p2x[i]['x'], self.p2x[i]['y'], self.p2x[i]['z']] for i in ca2_indices])
 
+        # 初期集団の作成
         print("-----> Population is generated")
         population = np.random.rand(self.pop_size, 3) * 2 * np.pi
-        
+        # RMSDの初期値を計算
         initial_rmsd = (1 / self.calc_fitness(population[0])) - 0.01
         print(f"initial rmsd = {initial_rmsd:.4f}\n")
         
-        return population
+        return population # 戻り値として初期化した集団を返す
 
+    # 適応度を計算する
     def calc_fitness(self, angles):
+        # X,Y,Z軸回りの回転行列を順番にかけておく (@は行列の掛け算,mtxはmatrix)
         rmtx = rx(angles[0]) @ ry(angles[1]) @ rz(angles[2])
         rmsd = 0.0
         nst = 0
 
+        # 各点の座標に回転行列をかけてRMSDとNSTを計算
         for i in range(self.align_size):
             p1_idx = self.pos[0, i]
             p2_idx = self.pos[1, i]
-            
             if p1_idx != -1 and p2_idx != -1:
                 c1 = self.ca1_coords[p1_idx]
                 c2 = self.ca2_coords[p2_idx]
@@ -170,21 +183,27 @@ class GeneticAlgorithmAligner:
                 nst += 1
 
         rmsd = np.sqrt(rmsd / nst)
-        return 1.0 / (rmsd + 0.01)
+        return 1.0 / (rmsd + 0.01) #RMSDを返す
 
+    # 引数rndで与えられた乱数値をもとに角度thetaを増減して返す
     def mod_angle(self, rnd, theta):
+        # self.rt(初期値:1)が変異の大きさを制御している
         delta = 2 * np.pi * random.random() * self.rt
+        # 乱数が変異を起こす確率(閾値)より大きければ変異は起きない
         if rnd > self.mut_rate:
             return theta
         else:
+            # 乱数が閾値以下のとき50%の確率でdelta分thetaが増える
             if random.random() > 0.5:
                 x = theta + delta
                 if x > 2 * np.pi: x -= 2 * np.pi
+            #                 --50%の確率でdelta分thetaが減る
             else:
                 x = theta - delta
                 if x < 0: x += 2 * np.pi
             return x
 
+    # 与えられた集団中の各個体に対してX,Y,Zの回転角に変異率に応じて突然変異を起こさせる
     def mutation(self, population):
         pop_size = len(population)
         mutants = []
@@ -197,12 +216,15 @@ class GeneticAlgorithmAligner:
             new_z = self.mod_angle(mz, population[i, 2])
             mutants.append([new_x, new_y, new_z])
             
+        # 変異した個体だけmutantsに格納して個体数を出力し、元の集団と合流させる
         print(f"No of mutants = {len(mutants)}")
         if mutants:
             return np.vstack([population, np.array(mutants)])
-        return population
+        return population # またしても集団を返す
 
+    # 与えられた集団内で組み換えを行う
     def recombination(self, population):
+        # 0~1の乱数配列を作って組み換え率(閾値)self.rec_rate未満だった要素の数だけ組み換えを起こす
         print("-----> Recombination: ", end="")
         pop_size = len(population)
         rsize = np.sum(np.random.rand(pop_size) < self.rec_rate)
@@ -211,6 +233,7 @@ class GeneticAlgorithmAligner:
         
         recombinants = []
         for _ in range(rsize):
+            # ランダムに選んだ2個体の回転角を組み替えてrecombinantsに格納
             mem1 = random.randint(0, pop_size - 1)
             mem2 = random.randint(0, pop_size - 1)
             rp = random.randint(1, 2)
@@ -219,10 +242,12 @@ class GeneticAlgorithmAligner:
             else:
                 recombinants.append([population[mem1, 0], population[mem1, 1], population[mem2, 2]])
                 
+        # 組み換え後の個体群をもとの集団に戻す
         if recombinants:
             return np.vstack([population, np.array(recombinants)])
-        return population
+        return population # 組み換え後の集団を返す
 
+    # 
     def selection(self, population, fitness, gen_idx):
         print("-----> Sampling Next Generation")
         ord_idx = np.argsort(fitness)[::-1]
