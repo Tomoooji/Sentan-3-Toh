@@ -83,10 +83,12 @@ GeneticAlgorithmAligner
  >prepare_ga
  >calc_fitness
  >mod_angle
- >
- >
- >
- >
+ >mutation
+ >recombination
+ >selection
+ >output_results
+
+main
 
 ```
 
