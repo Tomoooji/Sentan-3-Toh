@@ -172,7 +172,7 @@ class GeneticAlgorithmAligner:
         rmsd = 0.0
         nst = 0
 
-        # 各点の座標に回転行列をかけてRMSDとNSTを計算
+        # 各点の座標に回転行列をかけてRMSDを計算
         for i in range(self.align_size):
             p1_idx = self.pos[0, i]
             p2_idx = self.pos[1, i]
@@ -248,7 +248,7 @@ class GeneticAlgorithmAligner:
             return np.vstack([population, np.array(recombinants)])
         return population # 組み換え後の集団を返す
 
-    # 
+    # 受け取った集団からその適応度に応じて次の世代の集団を作成して返す
     def selection(self, population, fitness, gen_idx):
         print("-----> Sampling Next Generation")
         ord_idx = np.argsort(fitness)[::-1]# 集団中の個体のインデックスを適応度が大きい順に取得
@@ -260,6 +260,7 @@ class GeneticAlgorithmAligner:
         for j in range(1, sizes):
             wheel[j] = wheel[j-1] + fitness[ord_idx[j]]
 
+        # スケールされた乱数配列を作成してソート
         rnd = np.sort(np.random.rand(self.pop_size) * wheel[-1])
 
         mem = np.zeros(sizes, dtype=int)
@@ -269,6 +270,7 @@ class GeneticAlgorithmAligner:
             else:
                 mem[j] = np.sum(rnd < wheel[j]) - np.sum(rnd < wheel[j-1])
 
+        # 適応度が最良の個体を選択してる...はず
         print("-----> Elite Selection")
         if mem[0] == 0:
             mem[0] = 1
