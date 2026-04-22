@@ -4,7 +4,7 @@
 
 ### 環境構築
 
-三浦先生の時に入れたAnacondaが残ってれば必要なもの(numpyとmatplotlib)は入ってるので問題ないがJupyterでファイルの読み書きがどうなるかわからんので普通にVSCode入れた方が良いと思う。QOL上がります。細かいことはこの動画[https://www.youtube.com/watch?v=B8WnCAOcheM]がわかりやすいのでおすすめ(jupyter系の拡張機能はいらん)
+三浦先生の時に入れたAnacondaが残ってれば必要なもの(numpyとmatplotlib)は入ってるので問題ないがJupyterでファイルの読み書きがどうなるかわからんので普通にVSCode入れた方が良いと思う。QOL上がります。細かいことはこの動画 [https://www.youtube.com/watch?v=B8WnCAOcheM] がわかりやすいのでおすすめ(jupyter系の拡張機能はいらん)
 
 ### Python文法解説
 
