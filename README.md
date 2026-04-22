@@ -70,16 +70,18 @@ p105~
 
 ### execute_GA.pyの解説(Python初学者向け)
 ```
-read
-read
-write
+read_fasta
+read_pdb
+write_pdb
 
 rx
 ry
 rz
 
-
-
+GeneticAlgorithmAligner
+ >__init__
+ >
+ >
 
 
 ```
