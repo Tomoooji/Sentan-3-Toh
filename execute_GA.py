@@ -71,7 +71,7 @@ def rz(theta):
 # =============================================================================
 class GeneticAlgorithmAligner:
     def __init__(self, pdb1, pdb2, aln, pop_size, gen_num, mut_rate, rec_rate):
-        # 主要な変数の初期化
+        # 主要な変数(主にハイパーパラメータ)の初期化
         self.pdb1 = pdb1
         self.pdb2 = pdb2
         self.aln = aln
@@ -89,7 +89,7 @@ class GeneticAlgorithmAligner:
         self.out_pdb2 = f"{base2}{suffix}.pdb"
         self.out_plot = f"plot_{base1}_{base2}{suffix}.png"
 
-        # 主要な変数の初期化
+        # 主要な変数(主にデータ格納用)の初期化
         self.count = 0 # 適応的変異用(機能してない)
         self.rt = 1.0  # 適応的変異用(機能してない)
         self.recd = np.zeros(self.gen_num) # 各世代の最良適応度の記録
@@ -263,6 +263,7 @@ class GeneticAlgorithmAligner:
         # スケールされた乱数配列を作成してソート
         rnd = np.sort(np.random.rand(self.pop_size) * wheel[-1])
 
+        # 下のif文で使うエリート選別用のfor文なのはわかるが原理不明
         mem = np.zeros(sizes, dtype=int)
         for j in range(sizes):
             if j == 0:
