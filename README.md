@@ -143,14 +143,14 @@ python execute_GA.py
 --rec_rate 0.6
 ```
 
-改行しないで１行で書くこと
---pdb1と—pdb2で、読み込ませるpdbファイルを指定
-ただし、順番は—alnで指定されるアラインメントファイルの中の順番に従うこと
---pop 集団サイズ
---gen_size 世代数
---mut_rate 突然変異率
---rec_rate 組み換え率
-最初のpythonは、うまく動かない場合は、python3あるいはpy (Windowsの場合）を試す
+改行しないで１行で書くこと  
+--pdb1と—pdb2で、読み込ませるpdbファイルを指定  
+ただし、順番は—alnで指定されるアラインメントファイルの中の順番に従うこと  
+--pop 集団サイズ  
+--gen_size 世代数  
+--mut_rate 突然変異率  
+--rec_rate 組み換え率  
+最初のpythonは、うまく動かない場合は、python3あるいはpy (Windowsの場合）を試す  
 
 ### レポート課題
 
