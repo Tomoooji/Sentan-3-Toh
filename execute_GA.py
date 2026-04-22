@@ -285,14 +285,16 @@ class GeneticAlgorithmAligner:
                 for _ in range(mem[j]):
                     new_population.append(population[ord_idx[j]])
 
+        # 各世代の最良適応度を保存しておく(逆数から0.01を引いてるのはグラフ描画用の調整?)
         self.recd[gen_idx] = (1.0 / fitness[ord_idx[0]]) - 0.01
 
+        # 世代ごとの材料適応度が15世代変化しなかった場合に変異率を変化させる(適応的変異?)
+        # 実際には適応度の変化率(self.rtとself.redx)が1に設定されてるため機能していない
         if gen_idx > 0:
             if self.recd[gen_idx] == self.recd[gen_idx - 1]:
                 self.count += 1
             else:
                 self.count = 0
-
             if self.count > 15:
                 self.count = 0
                 self.rt *= self.redx
