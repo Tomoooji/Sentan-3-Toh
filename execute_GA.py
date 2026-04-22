@@ -183,21 +183,27 @@ class GeneticAlgorithmAligner:
                 nst += 1
 
         rmsd = np.sqrt(rmsd / nst)
-        return 1.0 / (rmsd + 0.01) #
+        return 1.0 / (rmsd + 0.01) #RMSDを返す
 
+    # 引数rndで与えられた乱数値をもとに角度thetaを増減して返す
     def mod_angle(self, rnd, theta):
+        # self.rt(初期値:1)が変異の大きさを制御している
         delta = 2 * np.pi * random.random() * self.rt
+        # 乱数が変異を起こす確率(閾値)より大きければ変異は起きない
         if rnd > self.mut_rate:
             return theta
         else:
+            # 乱数が閾値以下のとき50%の確率でdelta分thetaが増える
             if random.random() > 0.5:
                 x = theta + delta
                 if x > 2 * np.pi: x -= 2 * np.pi
+            #                 --50%の確率でdelta分thetaが減る
             else:
                 x = theta - delta
                 if x < 0: x += 2 * np.pi
             return x
 
+    # 与えられた集団中の各個体に対してX,Y,Zの回転角に変異率に応じて突然変異を起こさせる
     def mutation(self, population):
         pop_size = len(population)
         mutants = []
@@ -210,12 +216,15 @@ class GeneticAlgorithmAligner:
             new_z = self.mod_angle(mz, population[i, 2])
             mutants.append([new_x, new_y, new_z])
             
+        # 変異した個体だけmutantsに格納して個体数を出力し、元の集団と合流させる
         print(f"No of mutants = {len(mutants)}")
         if mutants:
             return np.vstack([population, np.array(mutants)])
-        return population
+        return population # またしても集団を返す
 
+    # 与えられた集団内で組み換えを行う
     def recombination(self, population):
+        # 0~1の乱数配列を作って組み換え率(閾値)self.rec_rate未満だった要素の数だけ組み換えを起こす
         print("-----> Recombination: ", end="")
         pop_size = len(population)
         rsize = np.sum(np.random.rand(pop_size) < self.rec_rate)
@@ -224,6 +233,7 @@ class GeneticAlgorithmAligner:
         
         recombinants = []
         for _ in range(rsize):
+            # ランダムに選んだ2個体の回転角を組み替えてrecombinantsに格納
             mem1 = random.randint(0, pop_size - 1)
             mem2 = random.randint(0, pop_size - 1)
             rp = random.randint(1, 2)
@@ -232,10 +242,12 @@ class GeneticAlgorithmAligner:
             else:
                 recombinants.append([population[mem1, 0], population[mem1, 1], population[mem2, 2]])
                 
+        # 組み換え後の個体群をもとの集団に戻す
         if recombinants:
             return np.vstack([population, np.array(recombinants)])
-        return population
+        return population # 組み換え後の集団を返す
 
+    # 
     def selection(self, population, fitness, gen_idx):
         print("-----> Sampling Next Generation")
         ord_idx = np.argsort(fitness)[::-1]
