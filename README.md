@@ -80,9 +80,13 @@ rz
 
 GeneticAlgorithmAligner
  >__init__
+ >prepare_ga
+ >calc_fitness
+ >mod_angle
  >
  >
-
+ >
+ >
 
 ```
 
