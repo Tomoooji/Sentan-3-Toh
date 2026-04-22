@@ -250,11 +250,12 @@ class GeneticAlgorithmAligner:
     # 
     def selection(self, population, fitness, gen_idx):
         print("-----> Sampling Next Generation")
-        ord_idx = np.argsort(fitness)[::-1]
+        ord_idx = np.argsort(fitness)[::-1]# 集団中の個体のインデックスを適応度が大きい順に取得
         sizes = len(population)
 
         wheel = np.zeros(sizes)
-        wheel[0] = fitness[ord_idx[0]]
+        wheel[0] = fitness[ord_idx[0]]# 適応度が最大の個体
+        # 適応度が小さい順に加算しながらリストアップ?
         for j in range(1, sizes):
             wheel[j] = wheel[j-1] + fitness[ord_idx[j]]
 
@@ -276,6 +277,7 @@ class GeneticAlgorithmAligner:
                     break
 
         print("-----> Make Next Generation")
+        # エリート以外をリストアップ
         new_population = []
         for j in range(sizes):
             if mem[j] > 0:
@@ -297,6 +299,7 @@ class GeneticAlgorithmAligner:
         print(f"Min RMSD of Generation {gen_idx + 1} = {self.recd[gen_idx]:.5f}\n")
         return np.array(new_population)[:self.pop_size]
 
+    # 結果出力用
     def output_results(self, final_population):
         fitness = np.array([self.calc_fitness(ind) for ind in final_population])
         best_idx = np.argmax(fitness)
