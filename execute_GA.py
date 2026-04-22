@@ -75,11 +75,11 @@ class GeneticAlgorithmAligner:
         self.pdb1 = pdb1
         self.pdb2 = pdb2
         self.aln = aln
-        self.pop_size = pop_size
-        self.gen_num = gen_num
-        self.mut_rate = mut_rate
-        self.rec_rate = rec_rate
-        self.redx = 1.0
+        self.pop_size = pop_size # 集団サイズ(pop=population)
+        self.gen_num = gen_num #   世代数(gen=generation)
+        self.mut_rate = mut_rate # 変異率(mut=mutation)
+        self.rec_rate = rec_rate # 組み換え率(rec=recombination)
+        self.redx = 1.0 # 適応的変異用(機能してない)
         
         # 出力ファイル名の自動生成
         base1 = os.path.basename(self.pdb1).split('.')[0]
@@ -90,9 +90,9 @@ class GeneticAlgorithmAligner:
         self.out_plot = f"plot_{base1}_{base2}{suffix}.png"
 
         # 主要な変数の初期化
-        self.count = 0
-        self.rt = 1.0
-        self.recd = np.zeros(self.gen_num)
+        self.count = 0 # 適応的変異用(機能してない)
+        self.rt = 1.0  # 適応的変異用(機能してない)
+        self.recd = np.zeros(self.gen_num) # 各世代の最良適応度の記録
         self.pos = None
         self.ca1_coords = None
         self.ca2_coords = None
@@ -124,7 +124,7 @@ class GeneticAlgorithmAligner:
         
         # Cα原子の座標を行列として抽出
         print("-----> CA coordinates are obtained from PDB data")
-        # atomのeletyがCAのインデックスの抽出
+        # atomのeletyがCAのインデックスを抽出
         ca1_indices = [i for i, a in enumerate(p1_atoms) if a['elety'] == 'CA']
         ca2_indices = [i for i, a in enumerate(p2_atoms) if a['elety'] == 'CA']
 
@@ -184,7 +184,7 @@ class GeneticAlgorithmAligner:
                 nst += 1
 
         rmsd = np.sqrt(rmsd / nst)
-        return 1.0 / (rmsd + 0.01) #RMSDを返す
+        return 1.0 / (rmsd + 0.01) # RMSDを返す
 
     # 引数rndで与えられた乱数値をもとに角度thetaを増減して返す
     def mod_angle(self, rnd, theta):
@@ -198,7 +198,7 @@ class GeneticAlgorithmAligner:
             if random.random() > 0.5:
                 x = theta + delta
                 if x > 2 * np.pi: x -= 2 * np.pi
-            #                 --50%の確率でdelta分thetaが減る
+            #              --残り50%の確率でdelta分thetaが減る
             else:
                 x = theta - delta
                 if x < 0: x += 2 * np.pi
