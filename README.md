@@ -68,6 +68,22 @@ molmil: PDBjで開発されたタンパク質立体構造表示ビューア
 
 p105~
 
+### execute_GA.pyの解説(Python初学者向け)
+```
+read
+read
+write
+
+rx
+ry
+rz
+
+
+
+
+
+```
+
 ### 課題の説明
 
 1. **1jl9.pdbと1jl9m.pdbの重ね合わせ**
