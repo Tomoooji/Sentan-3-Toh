@@ -2,6 +2,29 @@
 
 先端生命科学実験の藤先生回分のプログラムフォルダ
 
+## この資料について
+
+この資料は(インフレが起きて先生にばれない程度に)他の人にも教えてもokです。  
+Pythonに関しては全部書ききれないのでここに載ってる用語を追加で調べることを推奨します。  
+不明点などあれば自分まで聞いてもらえたら対応します。  
+
+### ファイル構成
+
+```text
+Sentan-3-Toh/
+├─ README.md        - 解説資料(今見てるファイル)
+├─ assets           - READMEに貼ってる画像のフォルダ
+├─ LICENSE          - 気にしなくてok
+├─ command.txt      - LUNAの資料(Windows用)
+├─ execute_GA.py    - LUNAの資料に解説を付けたもの
+├─ execute_GAv2.py  - LUNAの資料
+├─ 1jl9.aln.fasta   - LUNAの資料
+└─ seq.aln.fasta    - LUNAの資料
+```
+LUNAから.pdbのファイルがダウンロードできないのでこれ単体では動かせないです。  
+
+## 解説資料
+
 ### 環境構築
 
 三浦先生の時に入れたAnacondaが残ってれば必要なもの(numpyとmatplotlib)は入ってるので問題ないがJupyterでファイルの読み書きがどうなるかわからんので普通にVSCode入れた方が良いと思う。QOL上がります。細かいことはこの動画 [https://www.youtube.com/watch?v=B8WnCAOcheM] がわかりやすいのでおすすめ(jupyter系の拡張機能はいらん)
