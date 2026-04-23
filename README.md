@@ -21,7 +21,7 @@ Sentan-3-Toh/
 ├─ 1jl9.aln.fasta   - LUNAの資料
 └─ seq.aln.fasta    - LUNAの資料
 ```
-LUNAから.pdbのファイルがダウンロードできないのでこれ単体では動かせないです。  
+LUNAから.pdbのファイルがダウンロードできてないのでこれ単体では動かせないです。  
 
 ## 解説資料
 
