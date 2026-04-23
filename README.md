@@ -195,7 +195,7 @@ python execute_GA.py
 --rec_rate 組み換え率  
 最初のpythonは、うまく動かない場合は、python3あるいはpy (Windowsの場合）を試す  
 
-### レポート課題
+#### レポート課題
 
 1. 1jl9.pdbと1jl9m.pdbの比較 (p.136~)
 2. 1jl9.pdbと3c9a.pdbの比較  (p.142~)
