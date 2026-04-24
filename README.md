@@ -171,7 +171,7 @@ Sentan-3-Toh/
    1. 修正前に実行
    2. 修正後に実行
 
-[1jl9.pdb](src/1jl9.pdb)  human epidermal growth factor (EGF) 42アミノ酸
+[1jl9.pdb](src/1jl9.pdb)  human epidermal growth factor (EGF) 42アミノ酸  
 [3c9a.pdb](src/3c9a.pdb) Drosophila melanogaster Spitzタンパク質のEGFドメイン 48アミノ酸
 
 重ね合わせには、一方の構造のどのアミノ酸と他方の構造のどのアミノ酸が対応するかを決めておかないと、RMSDが計算できない。
@@ -191,12 +191,12 @@ python execute_GA.py
 ```
 
 改行しないで１行で書くこと
---pdb1と—pdb2で、読み込ませるpdbファイルを指定
-ただし、順番は—alnで指定されるアラインメントファイルの中の順番に従うこと
---pop 集団サイズ
---gen_size 世代数
---mut_rate 突然変異率
---rec_rate 組み換え率
+- --pdb1と—pdb2で、読み込ませるpdbファイルを指定
+   ただし、順番は—alnで指定されるアラインメントファイルの中の順番に従うこと
+- --pop 集団サイズ
+- --gen_size 世代数
+- --mut_rate 突然変異率
+- --rec_rate 組み換え率
 最初のpythonは、うまく動かない場合は、python3あるいはpy (Windowsの場合)を試す
 
 #### レポート課題
