@@ -30,6 +30,7 @@ for param in param_table:
             fitness_vals = np.array([ga1.calc_fitness(ind) for ind in recombinated])
             population = ga1.selection(recombinated, fitness_vals, g)
         ga1.output_results(population)
+        print(ga1.recd[-1])
 
 for i in range(5):
     ga2=GA2(
@@ -42,3 +43,5 @@ for i in range(5):
         fitness_vals = np.array([ga2.calc_fitness(ind) for ind in recombinated])
         population = ga2.selection(recombinated, fitness_vals, g)
     ga2.output_results(population)
+    print(ga2.recd[-1])
+    
