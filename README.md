@@ -23,6 +23,7 @@ Sentan-3-Toh/
 │  ├─ 1jl9.aln.fasta      - LUNAの資料
 │  └─ seq.aln.fasta       - LUNAの資料
 ├─ LICENSE                - 気にしなくてok
+├─ requirements.txt       - 気にしなくてok
 └─ README.md              - 解説資料(今見てるファイル)
 ```
 
