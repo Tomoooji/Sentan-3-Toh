@@ -24,10 +24,21 @@ for param in param_table:
             param["pdb1"], param["pdb2"], param["aln"], param["pop"], param["gen"], param["mut"], param["rec"], i, False
         )
         population = ga1.prepare_ga()
-        for i in range(ga1.gen_num):
+        for g in range(ga1.gen_num):
             mutated = ga1.mutation(population)
             recombinated = ga1.recombination(mutated)
             fitness_vals = np.array([ga1.calc_fitness(ind) for ind in recombinated])
-            population = ga1.selection(recombinated, fitness_vals, i)
+            population = ga1.selection(recombinated, fitness_vals, g)
         ga1.output_results(population)
 
+for i in range(5):
+    ga2=GA2(
+        param_table[-1]["pdb1"], param_table[-1]["pdb2"], param_table[-1]["aln"], param_table[-1]["pop"], param_table[-1]["gen"], param_table[-1]["mut"], param_table[-1]["rec"], i, False
+    )
+    population = ga2.prepare_ga()
+    for g in range(ga2.gen_num):
+        mutated = ga2.mutation(population)
+        recombinated = ga2.recombination(mutated)
+        fitness_vals = np.array([ga2.calc_fitness(ind) for ind in recombinated])
+        population = ga2.selection(recombinated, fitness_vals, g)
+    ga2.output_results(population)
