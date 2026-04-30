@@ -18,6 +18,15 @@ param_table = [
     {"pdb1":"3c9a.pdb", "pdb2":"1jl9.pdb",  "aln":"seq.aln.fasta", "pop":100, "gen":100, "rec":0.7, "mut":0  },
     {"pdb1":"3c9a.pdb", "pdb2":"1jl9.pdb",  "aln":"seq.aln.fasta", "pop":500, "gen":100, "rec":0.7, "mut":0.7}
 ]
+
+def writecsv(array, file):
+    for i in range(len(array)):
+        if i<len(array)-2:
+            print(f"{array[i]}",end=",",file=file)
+        else:
+            print(f"{array[i]}",file=file)
+
+
 with open(os.path.join(os.getcwd(),"logs","record.csv"),"w") as record:
     for param in param_table[5:]:
         print(param,file=record)
@@ -33,7 +42,8 @@ with open(os.path.join(os.getcwd(),"logs","record.csv"),"w") as record:
                 population = ga1.selection(recombinated, fitness_vals, g)
             ga1.output_results(population)
             #print(ga1.recd[-1])
-            print(ga1.recd,file=record)
+            #print(ga1.recd,file=record)
+            writecsv(ga1.recd,record)
 
     print(param_table[-1],file=record)
     for i in range(5):
@@ -48,6 +58,7 @@ with open(os.path.join(os.getcwd(),"logs","record.csv"),"w") as record:
             population = ga2.selection(recombinated, fitness_vals, g)
         ga2.output_results(population)
         #print(ga2.recd[-1])
-        print(ga2.recd,file=record)
+        #print(ga2.recd,file=record)
+        writecsv(ga2.recd,record)
         
     
