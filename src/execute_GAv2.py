@@ -69,15 +69,13 @@ def rz(theta):
 # 3. 遺伝的アルゴリズムクラス
 # =============================================================================
 class GeneticAlgorithmAligner:
-    pbd1 = "3c9a.pdb"
-    pdb2 = "1jl9.pdb"
-    aln = "seq.aln.fasta"
-    def __init__(self,# pdb1, pdb2, aln, 
-                 pop_size, gen_num, mut_rate, rec_rate):
-        #self.pdb1 = pdb1
-        #self.pdb2 = pdb2
-        #self.aln = aln
+    def __init__(self, pdb1, pdb2, aln, pop_size, gen_num, mut_rate, rec_rate,
+                 idx = 0, print_log = True):
+        self.print_log=print_log
         
+        self.pdb1 = pdb1
+        self.pdb2 = pdb2
+        self.aln = aln
         self.pop_size = pop_size
         self.gen_num = gen_num
         self.mut_rate = mut_rate
@@ -88,9 +86,9 @@ class GeneticAlgorithmAligner:
         base1 = os.path.basename(self.pdb1).split('.')[0]
         base2 = os.path.basename(self.pdb2).split('.')[0]
         suffix = f"_{self.pop_size}_{self.gen_num}_{self.mut_rate}_{self.rec_rate}_{self.redx}"
-        self.out_pdb1 = f"{base1}{suffix}.pdb"
-        self.out_pdb2 = f"{base2}{suffix}.pdb"
-        self.out_plot = f"plot_{base1}_{base2}{suffix}.png"
+        self.out_pdb1 = f"logs\{base1}{suffix}_{idx}.pdb"
+        self.out_pdb2 = f"logs\{base2}{suffix}_{idx}.pdb"
+        self.out_plot = f"logs\plot_{base1}_{base2}{suffix}_{idx}.png"
 
         self.count = 0
         self.rt = 1.0
@@ -106,12 +104,12 @@ class GeneticAlgorithmAligner:
         if os.path.exists(self.out_pdb1) or os.path.exists(self.out_pdb2) or os.path.exists(self.out_plot):
             raise FileExistsError(f"エラー：出力ファイル ({self.out_plot} 等) が既に存在します。古いファイルを削除するかリネームしてください。")
 
-        print("-----> two pdb files and a fasta alignment file are read")
+        if self.print_log: print("-----> two pdb files and a fasta alignment file are read")
         seqs = read_fasta(self.aln)
         p1_atoms = read_pdb(self.pdb1)
         p2_atoms = read_pdb(self.pdb2)
 
-        print("-----> correspondece between alignment and pdb is made")
+        if self.print_log: print("-----> correspondece between alignment and pdb is made")
         self.align_size = len(seqs[0])
         self.pos = np.zeros((2, self.align_size), dtype=int) - 1
 
@@ -122,14 +120,14 @@ class GeneticAlgorithmAligner:
                     self.pos[i, j] = site
                     site += 1
 
-        print("-----> CA coordinates are obtained from PDB data")
+        if self.print_log: print("-----> CA coordinates are obtained from PDB data")
         ca1_indices = [i for i, a in enumerate(p1_atoms) if a['elety'] == 'CA']
         ca2_indices = [i for i, a in enumerate(p2_atoms) if a['elety'] == 'CA']
 
         #ca1_raw = np.array([[p1_atoms[i]['x'], p1_atoms[i]['y'], p1_atoms[i]['z']] for i in ca1_indices])
         #ca2_raw = np.array([[p2_atoms[i]['x'], p2_atoms[i]['y'], p2_atoms[i]['z']] for i in ca2_indices])
 
-        #print("-----> Calculation of geometric center of 1st and 2nd PDB file")
+        #if self.print_log: print("-----> Calculation of geometric center of 1st and 2nd PDB file")
         #ca1_center = np.mean(ca1_raw, axis=0)
         #ca2_center = np.mean(ca2_raw, axis=0)
 
@@ -137,7 +135,7 @@ class GeneticAlgorithmAligner:
         ca1_raw = np.array([[p1_atoms[i]['x'], p1_atoms[i]['y'], p1_atoms[i]['z']] for i in ca1_indices])
         ca2_raw = np.array([[p2_atoms[i]['x'], p2_atoms[i]['y'], p2_atoms[i]['z']] for i in ca2_indices])
 
-        print("-----> Calculation of geometric center of 1st and 2nd PDB file")
+        if self.print_log: print("-----> Calculation of geometric center of 1st and 2nd PDB file")
         # アラインメント上で両方にギャップがない（対応している）Cα原子のみを抽出
         aligned_ca1_raw = []
         aligned_ca2_raw = []
@@ -154,7 +152,7 @@ class GeneticAlgorithmAligner:
         ca1_center = np.mean(aligned_ca1_raw, axis=0)
         ca2_center = np.mean(aligned_ca2_raw, axis=0)
 
-        print("-----> The geometric centers of the CA coordinates are set to the origin")
+        if self.print_log: print("-----> The geometric centers of the CA coordinates are set to the origin")
         self.p1x = copy.deepcopy(p1_atoms)
         self.p2x = copy.deepcopy(p2_atoms)
 
@@ -171,11 +169,11 @@ class GeneticAlgorithmAligner:
         self.ca1_coords = np.array([[self.p1x[i]['x'], self.p1x[i]['y'], self.p1x[i]['z']] for i in ca1_indices])
         self.ca2_coords = np.array([[self.p2x[i]['x'], self.p2x[i]['y'], self.p2x[i]['z']] for i in ca2_indices])
 
-        print("-----> Population is generated")
+        if self.print_log: print("-----> Population is generated")
         population = np.random.rand(self.pop_size, 3) * 2 * np.pi
         
         initial_rmsd = (1 / self.calc_fitness(population[0])) - 0.01
-        print(f"initial rmsd = {initial_rmsd:.4f}\n")
+        if self.print_log: print(f"initial rmsd = {initial_rmsd:.4f}\n")
         
         return population
 
@@ -223,17 +221,17 @@ class GeneticAlgorithmAligner:
             new_z = self.mod_angle(mz, population[i, 2])
             mutants.append([new_x, new_y, new_z])
             
-        print(f"No of mutants = {len(mutants)}")
+        if self.print_log: print(f"No of mutants = {len(mutants)}")
         if mutants:
             return np.vstack([population, np.array(mutants)])
         return population
 
     def recombination(self, population):
-        print("-----> Recombination: ", end="")
+        if self.print_log: print("-----> Recombination: ", end="")
         pop_size = len(population)
         rsize = np.sum(np.random.rand(pop_size) < self.rec_rate)
-        print(f"rsize = {rsize}")
-        print(f"No of Recombinants = {rsize}")
+        if self.print_log: print(f"rsize = {rsize}")
+        if self.print_log: print(f"No of Recombinants = {rsize}")
         
         recombinants = []
         for _ in range(rsize):
@@ -250,7 +248,7 @@ class GeneticAlgorithmAligner:
         return population
 
     def selection(self, population, fitness, gen_idx):
-        print("-----> Sampling Next Generation")
+        if self.print_log: print("-----> Sampling Next Generation")
         ord_idx = np.argsort(fitness)[::-1]
         sizes = len(population)
 
@@ -268,7 +266,7 @@ class GeneticAlgorithmAligner:
             else:
                 mem[j] = np.sum(rnd < wheel[j]) - np.sum(rnd < wheel[j-1])
 
-        print("-----> Elite Selection")
+        if self.print_log: print("-----> Elite Selection")
         if mem[0] == 0:
             mem[0] = 1
             for j in range(sizes - 1, 0, -1):
@@ -276,7 +274,7 @@ class GeneticAlgorithmAligner:
                     mem[j] -= 1
                     break
 
-        print("-----> Make Next Generation")
+        if self.print_log: print("-----> Make Next Generation")
         new_population = []
         for j in range(sizes):
             if mem[j] > 0:
@@ -295,7 +293,7 @@ class GeneticAlgorithmAligner:
                 self.count = 0
                 self.rt *= self.redx
 
-        print(f"Min RMSD of Generation {gen_idx + 1} = {self.recd[gen_idx]:.5f}\n")
+        if self.print_log: print(f"Min RMSD of Generation {gen_idx + 1} = {self.recd[gen_idx]:.5f}\n")
         return np.array(new_population)[:self.pop_size]
 
     def output_results(self, final_population):
@@ -329,8 +327,8 @@ class GeneticAlgorithmAligner:
 
         plt.savefig(self.out_plot)
         plt.close()
-        print(f"GA Process Finished Successfully.")
-        print(f"Outputs generated:\n- {self.out_pdb1}\n- {self.out_pdb2}\n- {self.out_plot}")
+        if self.print_log: print(f"GA Process Finished Successfully.")
+        if self.print_log: print(f"Outputs generated:\n- {self.out_pdb1}\n- {self.out_pdb2}\n- {self.out_plot}")
 
 # =============================================================================
 # 4. メイン実行プロセス (コマンドライン引数パース)
@@ -376,7 +374,7 @@ if __name__ == "__main__":
         mutated = ga.mutation(population)
         recombinated = ga.recombination(mutated)
         
-        print("-----> Calculation of Fitness")
+        if ga.print_log: print("-----> Calculation of Fitness")
         fitness_vals = np.array([ga.calc_fitness(ind) for ind in recombinated])
         
         population = ga.selection(recombinated, fitness_vals, i)
