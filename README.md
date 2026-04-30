@@ -2,7 +2,7 @@
 
 先端生命科学実験の藤先生回分のプログラムフォルダ
 
-** (初日分のざっくり解説はここから)[https://www.notion.so/35288cad30928053a06ee1d05f048067?source=copy_link] **
+** [初日分のざっくり解説はここから](https://www.notion.so/35288cad30928053a06ee1d05f048067?source=copy_link) **
 
 ## この資料について
 
