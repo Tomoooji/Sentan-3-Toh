@@ -86,9 +86,9 @@ class GeneticAlgorithmAligner:
         base1 = os.path.basename(self.pdb1).split('.')[0]
         base2 = os.path.basename(self.pdb2).split('.')[0]
         suffix = f"_{self.pop_size}_{self.gen_num}_{self.mut_rate}_{self.rec_rate}_{self.redx}"
-        self.out_pdb1 = f"logs\{base1}{suffix}_{idx}.pdb"
-        self.out_pdb2 = f"logs\{base2}{suffix}_{idx}.pdb"
-        self.out_plot = f"logs\plot_{base1}_{base2}{suffix}_{idx}.png"
+        self.out_pdb1 = f"logs\{base1}{suffix}_{idx}v2.pdb"
+        self.out_pdb2 = f"logs\{base2}{suffix}_{idx}v2.pdb"
+        self.out_plot = f"logs\plot_{base1}_{base2}{suffix}_{idx}v2.png"
 
         self.count = 0
         self.rt = 1.0
