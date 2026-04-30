@@ -17,7 +17,7 @@ param_table = [
     {"pdb1":"3c9a.pdb", "pdb2":"1jl9.pdb",  "aln":"seq.aln.fasta", "pop":100, "gen":100, "rec":0.7, "mut":0  },
     {"pdb1":"3c9a.pdb", "pdb2":"1jl9.pdb",  "aln":"seq.aln.fasta", "pop":500, "gen":100, "rec":0.7, "mut":0.7}
 ]
-"""
+
 for param in param_table:
     for i in range(5):
         ga1=GA1(
@@ -32,8 +32,7 @@ for param in param_table:
         ga1.output_results(population)
         print(ga1.recd[-1])
 
-"""
-for i in range(1):
+for i in range(5):
     ga2=GA2(
         param_table[-1]["pdb1"], param_table[-1]["pdb2"], param_table[-1]["aln"], param_table[-1]["pop"], param_table[-1]["gen"], param_table[-1]["mut"], param_table[-1]["rec"], i, False
     )
